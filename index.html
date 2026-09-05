@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Klavier — Typing Piano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<div class="console">
+  <div class="plate">
+    <h1>Klavier</h1>
+    <p>A piano played on the keyboard you already have</p>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Keyboard &amp; voice</div>
+    <div class="ctrl"><label for="toneSelect">Voice</label><select id="toneSelect"></select></div>
+    <div class="ctrl">
+      <label>Octave</label>
+      <div class="row">
+        <button class="mini-btn" id="octDown" title="Shift down (Arrow Down)">−</button>
+        <span class="readout" id="octaveReadout">C4 – E5</span>
+        <button class="mini-btn" id="octUp" title="Shift up (Arrow Up)">+</button>
+      </div>
+    </div>
+    <div class="ctrl">
+      <label>Transpose</label>
+      <div class="row">
+        <button class="mini-btn" id="transDown">−</button>
+        <span class="readout" id="transposeReadout">+0 st</span>
+        <button class="mini-btn" id="transUp">+</button>
+      </div>
+    </div>
+    <div class="ctrl"><label for="volSlider">Volume</label><input type="range" id="volSlider" min="0" max="100" value="72"></div>
+    <div class="ctrl"><label for="reverbSlider">Reverb</label><input type="range" id="reverbSlider" min="0" max="100" value="28"></div>
+    <div class="ctrl"><label>Labels</label><button class="btn" id="labelToggle">Show note names</button></div>
+    <div class="ctrl"><label>Falling notes</label><button class="btn on" id="vizToggle">On</button></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Dual &amp; split</div>
+    <div class="ctrl"><label>Dual (layer)</label><button class="btn" id="dualToggle">Off</button></div>
+    <div class="ctrl" id="dualVoiceCtrl" style="display:none;"><label for="dualSelect">Layered voice</label><select id="dualSelect"></select></div>
+    <div class="ctrl"><label>Split</label><button class="btn" id="splitToggle">Off</button></div>
+    <div class="ctrl" id="splitVoiceCtrl" style="display:none;"><label for="splitSelect">Left-hand voice</label><select id="splitSelect"></select></div>
+    <div class="ctrl" id="splitPointCtrl" style="display:none;">
+      <label for="splitPoint">Split point</label>
+      <div class="row"><input type="range" id="splitPoint" min="36" max="84" value="60"><span class="readout" id="splitPointReadout">C4</span></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">Rhythm</div>
+    <div class="ctrl">
+      <label for="styleSelect">Style</label>
+      <select id="styleSelect">
+        <option value="click">Click (metronome)</option>
+        <option value="pop">Pop</option>
+        <option value="rock">Rock</option>
+        <option value="jazz">Jazz Swing</option>
+        <option value="latin">Latin</option>
+        <option value="ballad">Ballad</option>
+      </select>
+    </div>
+    <div class="ctrl">
+      <label for="bpmInput">Tempo</label>
+      <div class="row"><input type="number" id="bpmInput" min="40" max="240" value="100"><button class="btn" id="rhythmToggle">Start</button></div>
+    </div>
+    <div class="pedal-wrap">
+      <label style="font-size:10.5px;letter-spacing:0.06em;color:var(--brass);font-weight:600;">Sustain</label>
+      <div class="pedal" id="pedal">HOLD</div>
+    </div>
+    <div class="ctrl">
+      <label>Recorder</label>
+      <div class="row">
+        <button class="btn" id="recToggle">● Rec</button>
+        <button class="btn" id="playToggle" disabled>▶ Play</button>
+        <button class="btn" id="clearRec" disabled>Clear</button>
+      </div>
+    </div>
+    <div class="ctrl"><label>&nbsp;</label><button class="btn" id="panicBtn">All notes off</button></div>
+  </div>
+
+  <details class="legend pro-tools">
+    <summary>Pro tools — MIDI, effects, practice &amp; looper</summary>
+
+    <div class="panel">
+      <div class="panel-title">MIDI input</div>
+      <div class="ctrl"><label>Device</label><button class="btn" id="midiEnableBtn">Enable MIDI</button></div>
+      <div class="ctrl" style="min-width:200px;"><label>Status</label><span class="readout" id="midiStatus" style="min-width:180px;text-align:left;">Not connected</span></div>
+      <div class="ctrl" id="midiDeviceCtrl" style="display:none;"><label for="midiInputSelect">Input</label><select id="midiInputSelect"></select></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Effects</div>
+      <div class="ctrl"><label for="distSlider">Distortion</label><input type="range" id="distSlider" min="0" max="100" value="0"></div>
+      <div class="ctrl"><label for="chorusSlider">Chorus</label><input type="range" id="chorusSlider" min="0" max="100" value="0"></div>
+      <div class="ctrl"><label for="delaySlider">Delay mix</label><input type="range" id="delaySlider" min="0" max="100" value="0"></div>
+      <div class="ctrl"><label for="delayTimeSlider">Delay time</label><input type="range" id="delayTimeSlider" min="50" max="800" value="350"></div>
+      <div class="ctrl"><label for="delayFbSlider">Delay feedback</label><input type="range" id="delayFbSlider" min="0" max="80" value="30"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Envelope (ADSR)</div>
+      <div class="ctrl"><label>Custom</label><button class="btn" id="envToggle">Off</button></div>
+      <div class="ctrl"><label for="attackSlider">Attack</label><input type="range" id="attackSlider" min="1" max="2000" value="20"></div>
+      <div class="ctrl"><label for="decaySlider">Decay</label><input type="range" id="decaySlider" min="1" max="2000" value="200"></div>
+      <div class="ctrl"><label for="sustainSlider">Sustain</label><input type="range" id="sustainSlider" min="0" max="100" value="50"></div>
+      <div class="ctrl"><label for="releaseSlider">Release</label><input type="range" id="releaseSlider" min="1" max="3000" value="500"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Scale &amp; practice</div>
+      <div class="ctrl">
+        <label for="scaleSelect">Scale</label>
+        <select id="scaleSelect">
+          <option value="none">Off (no highlight)</option>
+          <option value="major">Major</option>
+          <option value="minor">Natural Minor</option>
+          <option value="majpent">Major Pentatonic</option>
+          <option value="minpent">Minor Pentatonic</option>
+          <option value="blues">Blues</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label for="rootSelect">Root</label>
+        <select id="rootSelect">
+          <option value="0">C</option><option value="1">C#</option><option value="2">D</option>
+          <option value="3">D#</option><option value="4">E</option><option value="5">F</option>
+          <option value="6">F#</option><option value="7">G</option><option value="8">G#</option>
+          <option value="9">A</option><option value="10">A#</option><option value="11">B</option>
+        </select>
+      </div>
+      <div class="ctrl"><label>Practice mode</label><button class="btn" id="practiceToggle">Start</button></div>
+      <div class="ctrl">
+        <label>Stats</label>
+        <span class="stat">Correct: <b id="statCorrect">0</b> · Misses: <b id="statMiss">0</b> · Accuracy: <b id="statAcc">0%</b> · Notes/min: <b id="statSpeed">0</b></span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Looper</div>
+      <div class="ctrl"><label for="loopBars">Loop length</label><select id="loopBars"><option value="1">1 bar</option><option value="2">2 bars</option><option value="4" selected>4 bars</option><option value="8">8 bars</option></select></div>
+      <div class="ctrl"><label>&nbsp;</label><button class="btn" id="stopLoopBtn">Stop loop</button></div>
+      <div class="ctrl"><label>&nbsp;</label><span class="readout" id="loopLenReadout">not set</span></div>
+    </div>
+    <div class="panel">
+      <div class="row looper-track" data-idx="0">
+        <span class="track-label">Track 1</span>
+        <button class="btn small track-rec">● Rec</button>
+        <button class="btn small track-mute">Mute</button>
+        <button class="btn small track-clear">Clear</button>
+        <span class="readout track-status" style="min-width:90px;">Empty</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="row looper-track" data-idx="1">
+        <span class="track-label">Track 2</span>
+        <button class="btn small track-rec">● Rec</button>
+        <button class="btn small track-mute">Mute</button>
+        <button class="btn small track-clear">Clear</button>
+        <span class="readout track-status" style="min-width:90px;">Empty</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="row looper-track" data-idx="2">
+        <span class="track-label">Track 3</span>
+        <button class="btn small track-rec">● Rec</button>
+        <button class="btn small track-mute">Mute</button>
+        <button class="btn small track-clear">Clear</button>
+        <span class="readout track-status" style="min-width:90px;">Empty</span>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="row looper-track" data-idx="3">
+        <span class="track-label">Track 4</span>
+        <button class="btn small track-rec">● Rec</button>
+        <button class="btn small track-mute">Mute</button>
+        <button class="btn small track-clear">Clear</button>
+        <span class="readout track-status" style="min-width:90px;">Empty</span>
+      </div>
+    </div>
+  </details>
+
+  <div class="hand-key">
+    <span class="hand-swatch"><span class="hand-dot" style="background:var(--hand-l);"></span> Left hand</span>
+    <span class="hand-swatch"><span class="hand-dot" style="background:var(--hand-r);"></span> Right hand</span>
+    <span class="hand-swatch"><span class="hand-bar" style="background:var(--split-color);"></span> Split boundary</span>
+    <span class="hand-swatch"><span class="hand-dot" style="background:var(--scale-color);"></span> In scale</span>
+  </div>
+
+  <div class="felt-strip"></div>
+
+  <div class="keys-scroll" id="keysScroll">
+    <canvas id="vizCanvas" height="170"></canvas>
+    <div class="keyboard" id="keyboard"></div>
+  </div>
+
+  <details class="legend">
+    <summary>How to play</summary>
+    <div class="legend-body" id="legendBody"></div>
+  </details>
+
+  <div class="footer-hint" id="footerHint">Click anywhere on the keys once to enable audio, then play away.</div>
+</div>
+
+
+<script src="js/app.js"></script>
+</body>
+</html>
