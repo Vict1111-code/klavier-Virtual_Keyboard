@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#553520"/>
+      <stop offset="100%" stop-color="#241610"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="1" y="1" width="98" height="98" rx="21" fill="url(#wood)"/>
+  <rect x="2" y="2" width="96" height="96" rx="20" fill="none" stroke="#c9a24a" stroke-opacity="0.6" stroke-width="2"/>
+
+  <!-- white keys -->
+  <rect x="18" y="24" width="19" height="54" rx="3" fill="#f8f2e4"/>
+  <rect x="40" y="24" width="19" height="54" rx="3" fill="#f8f2e4"/>
+  <rect x="62" y="24" width="19" height="54" rx="3" fill="#f8f2e4"/>
+
+  <!-- black keys -->
+  <rect x="32" y="24" width="13" height="34" rx="2" fill="#15120f"/>
+  <rect x="54" y="24" width="13" height="34" rx="2" fill="#15120f"/>
+</svg>
